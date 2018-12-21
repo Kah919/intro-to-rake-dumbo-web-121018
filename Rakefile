@@ -1,4 +1,50 @@
-desc 'outputs hello to the terminal'
-task :hello do
-  puts "hello from Rake!"
+# require_relative './config/environment'
+#require 'sinatra/activerecord/rake'
+
+
+namespace :greeting do
+  desc 'outputs hello to the terminal'
+  task :hello do
+    puts "hello from Rake!"
+  end
+
+  desc 'outputs hola to the terminal'
+  task :hola do
+    puts "hola de Rake!"
+  end
+
+  # desc 'test'
+  # task :test do
+  #   res = `ls`
+  #   puts '================'
+  #   res = `ls -l`
+  #   res = `ls -l`
+  #   res = `ls -l`
+  #   res = `ls -l`
+  #   res = `ls -l`
+  #   res = `ls -l`
+  #   res = `ls -l`
+  # end
+end
+
+desc 'environment'
+task :environment do
+  require_relative './config/environment'
+end
+
+namespace :db do
+  desc 'migrate changes to your database'
+  task :migrate => :environment do
+    Student.create_table
+  end
+
+  desc 'seed the database with some dummy data'
+  task :seed do
+    require_relative './db/seeds.rb'
+  end
+end
+
+desc 'drop into the Pry console'
+task :console => :environment do
+  Pry.start
 end
